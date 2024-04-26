@@ -1,11 +1,16 @@
 #pragma once
-#include "stdint.h"
+#include <stdint.h>
 #include "cpu.h"
 
-class bus {
+class Bus {
 public:
-    bus();
-    ~bus();
+    Bus();      // Constructor
+    ~Bus();     // Destructor
 
-    cp
+    // Devices connected to the bus
+    CPU cpu;
+    uint8_t ram[1024 * 64];  // 64kb
+
+    void write(uint16_t address, uint8_t value);
+    uint8_t read(uint16_t address, bool ReadOnly = false);
 };
