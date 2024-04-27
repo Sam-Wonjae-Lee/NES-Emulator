@@ -68,6 +68,8 @@ public:
 
     Bus *bus;
     uint8_t cycles;
+    uint8_t CurrentValue;   // For loading memory
+    uint16_t CurrentAddress;    // For receiving at specific memory
 
     void Write(uint16_t address, uint8_t value);
     uint8_t Read(uint16_t address);
