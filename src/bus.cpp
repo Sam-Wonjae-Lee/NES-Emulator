@@ -1,3 +1,8 @@
+/*
+ * The bus is a communication system that sends control signals and data between the processor and other components.
+ * The main purpose for the bus will be to read and write.
+ * */
+
 #include "bus.h"
 
 Bus::Bus() {

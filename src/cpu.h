@@ -1,3 +1,8 @@
+/*
+ * The cpu used in the NES is known as the Ricoh 2A03 which is based on the MOS Technology 6502 processor.
+ * The cpu is the main processor chip and contains information on addressing modes, registers, and opcodes.
+ * */
+
 #pragma once
 #include <stdint.h>     // For different integer types
 
@@ -43,9 +48,11 @@ enum ProcessorFlag {
  * https://www.nesdev.org/wiki/Programming_Basics
  * */
 struct Register {
-    uint8_t Accumulator;    // Used to read and write to memory and store arithmetic and logic results
-    uint8_t XIndex;     //
-    uint8_t YIndex;
+    // Arithmetic
+    uint8_t Accumulator;    // Used to read/write to memory and store arithmetic/logic results
+    uint8_t XIndex;     // Used for several addressing modes
+    uint8_t YIndex;     // Used for several addressing modes.
+    // Other
     uint8_t Flag;   // Represented as 7 different flags to show the status of the processor
     uint8_t StackPointer;   // Holds the address to the current location on the stack
     uint16_t ProgramCounter;    // Keeps track of the memory address of the next instruction to be executed
@@ -65,78 +72,81 @@ public:
     uint8_t Read(uint16_t address);
     void ConnectToBus(Bus *bus);    // Connect CPU to bus
     void Reset();
+    void Step();    // Perform one clock cycle
 
     // Addressing modes functions
-    void AM_IMP();
-    void AM_ACC();
-    void AM_IMM();
-    void AM_ZP0();
-    void AM_ZPX();
-    void AM_ZPY();
-    void AM_REL();
-    void AM_ABS();
-    void AM_ABX();
-    void AM_ABY();
-    void AM_IND();
-    void AM_INX();
-    void AM_INY();
+    void Implicit();
+    void Accumulator();
+    void Immediate();
+    void ZeroPage();
+    void ZeroPageX();
+    void ZeroPageY();
+    void Relative();
+    void Absolute();
+    void AbsoluteX();
+    void AbsoluteY();
+    void Indirect();
+    void IndirectX();
+    void IndirectY();
 
     // Opcodes functions
-    void I_ADC();
-    void I_AND();
-    void I_ASL();
-    void I_BCC();
-    void I_BCS();
-    void I_BEQ();
-    void I_BIT();
-    void I_BMI();
-    void I_BNE();
-    void I_BPL();
-    void I_BRK();
-    void I_BVC();
-    void I_BVS();
-    void I_CLC();
-    void I_CLD();
-    void I_CLI();
-    void I_CLV();
-    void I_CMP();
-    void I_CPX();
-    void I_CPY();
-    void I_DEC();
-    void I_DEX();
-    void I_DEY();
-    void I_EOR();
-    void I_INC();
-    void I_INX();
-    void I_INY();
-    void I_JMP();
-    void I_JSR();
-    void I_LDA();
-    void I_LDX();
-    void I_LDY();
-    void I_LSR();
-    void I_NOP();
-    void I_ORA();
-    void I_PHA();
-    void I_PHP();
-    void I_PLA();
-    void I_PLP();
-    void I_ROL();
-    void I_ROR();
-    void I_RTI();
-    void I_RTS();
-    void I_SBC();
-    void I_SEC();
-    void I_SED();
-    void I_SEI();
-    void I_STA();
-    void I_STX();
-    void I_STY();
-    void I_TAX();
-    void I_TAY();
-    void I_TSX();
-    void I_TXA();
-    void I_TXS();
-    void I_TYA();
+    // https://www.oxyron.de/html/opcodes02.html
+    // https://www.nesdev.org/obelisk-6502-guide/reference.html
+    void ADC();     // Add with carry
+    void AND();     // Logical And (And With Accumulator)
+    void ASL();     // Arithmetic Shift Left
+    void BCC();     // Branch if Carry Clear
+    void BCS();     // Branch if Carry Set
+    void BEQ();     // Branch if Equal
+    void BIT();     // Bit Test
+    void BMI();     // Branch if Minus
+    void BNE();     // Branch if Not Equal
+    void BPL();     // Branch if Positive
+    void BRK();     // Force Interrupt
+    void BVC();     // Branch if Overflow Clear
+    void BVS();     // Branch if Overflow Set
+    void CLC();     // Clear Carry Flag
+    void CLD();     // Clear Decimal Mode
+    void CLI();     // Clear Interrupt Disable
+    void CLV();     // Clear Overflow Flag
+    void CMP();     // Compare
+    void CPX();     // Compare X Register
+    void CPY();     // Compare Y Register
+    void DEC();     // Decrement Memory
+    void DEX();     // Decrement X Register
+    void DEY();     // Decrement Y Register
+    void EOR();     // Exclusive OR
+    void INC();     // Increment Memory
+    void INX();     // Increment X Register
+    void INY();     // Increment Y Register
+    void JMP();     // Jump
+    void JSR();     // Jump to Subroutine
+    void LDA();     // Load Accumulator
+    void LDX();     // Load X Register
+    void LDY();     // Load Y Register
+    void LSR();     // Logical Shift Right
+    void NOP();     // No Operation
+    void ORA();     // Logical Inclusive Or
+    void PHA();     // Push Accumulator
+    void PHP();     // Push Processor Status
+    void PLA();     // Pull Accumulator
+    void PLP();     // Pull Processor Status
+    void ROL();     // Rotate Left
+    void ROR();     // Rotate Right
+    void RTI();     // Return from Interrupt
+    void RTS();     // Return from Subroutine
+    void SBC();     // Subtract with Carry
+    void SEC();     // Set Carry Flag
+    void SED();     // Set Decimal Flag
+    void SEI();     // Set Interrupt Flag
+    void STA();     // Store Accumulator
+    void STX();     // Store X Register
+    void STY();     // Store Y Register
+    void TAX();     // Transfer Accumulator to X
+    void TAY();     // Transfer Accumulator to Y
+    void TSX();     // Transfer Stack Pointer to X
+    void TXA();     // Transfer X to Accumulator
+    void TXS();     // Transfer X to Stack Pointer
+    void TYA();     // Transfer X to Accumulators
 };
 

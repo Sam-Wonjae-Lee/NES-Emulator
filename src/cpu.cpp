@@ -1,3 +1,8 @@
+/*
+ * The cpu used in the NES is known as the Ricoh 2A03 which is based on the MOS Technology 6502 processor.
+ * The cpu contains information on addressing modes, registers, and opcodes.
+ * */
+
 #include <stdint.h>
 #include "cpu.h"
 #include "bus.h"
