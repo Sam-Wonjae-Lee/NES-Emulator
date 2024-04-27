@@ -32,14 +32,14 @@ enum AddressingMode {
  * 7 different flags for CPU flag to display current status
  * */
 enum ProcessorFlag {
-    Negative = 1 << 7,
-    Overflow = 1 << 6,
-    Unused  = 1 << 5,
-    Break = 1 << 4,
-    Decimal = 1 << 3,
-    Interrupt = 1 << 2,
+    Carry = 0,
     Zero = 1 << 1,
-    Carry = 0
+    Interrupt = 1 << 2,
+    Decimal = 1 << 3,
+    Break = 1 << 4,
+    Unused  = 1 << 5,
+    Overflow = 1 << 6,
+    Negative = 1 << 7
 };
 
 /*
@@ -62,17 +62,19 @@ class Bus;
 
 class CPU {
 public:
-    Register CpuRegister;
     AddressingMode CpuAddressingMode;
     ProcessorFlag CpuProcessorFlag;
+    Register CpuRegister;
 
     Bus *bus;
+    uint8_t cycles;
 
     void Write(uint16_t address, uint8_t value);
     uint8_t Read(uint16_t address);
     void ConnectToBus(Bus *bus);    // Connect CPU to bus
     void Reset();
     void Step();    // Perform one clock cycle
+
 
     // Addressing modes functions
     void Implicit();
