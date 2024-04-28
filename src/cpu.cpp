@@ -23,6 +23,67 @@ void CPU::ConnectToBus(Bus *bus) {
 //    CpuRegister.StackPointer = 0xFD;
 //}
 
+// ---------- Addressing Modes Functions Start ----------
+void CPU::Implicit() {
+
+}
+
+void CPU::Accumulator() {
+
+}
+
+void CPU::Immediate() {
+
+}
+
+void CPU::ZeroPage() {
+
+}
+
+void CPU::ZeroPageX() {
+
+}
+
+void CPU::ZeroPageY() {
+
+}
+
+void CPU::Relative() {
+
+}
+
+void CPU::Absolute() {
+
+}
+
+void CPU::AbsoluteX() {
+
+}
+
+void CPU::AbsoluteY() {
+
+}
+
+void CPU::Indirect() {
+
+}
+
+void CPU::IndirectX() {
+
+}
+
+void CPU::IndirectY() {
+
+}
+
+// ---------- Addressing Modes Functions End ----------
+// ---------- Opcode Functions Start ----------
+
+// Branch if Carry Clear
+void CPU::BCC() {
+    if ()
+}
+
 // Force Interrupt
 // Forces the generation of an interrupt request
 void CPU::BRK() {
@@ -98,3 +159,6 @@ void CPU::SEI() {
     cycles += 2;
 }
 
+
+
+// ---------- Opcode Functions End ----------
