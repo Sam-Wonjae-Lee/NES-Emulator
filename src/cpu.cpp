@@ -24,64 +24,15 @@ void CPU::ConnectToBus(Bus *bus) {
 //}
 
 // ---------- Addressing Modes Functions Start ----------
-void CPU::Implicit() {
 
-}
 
-void CPU::Accumulator() {
-
-}
-
-void CPU::Immediate() {
-
-}
-
-void CPU::ZeroPage() {
-
-}
-
-void CPU::ZeroPageX() {
-
-}
-
-void CPU::ZeroPageY() {
-
-}
-
-void CPU::Relative() {
-
-}
-
-void CPU::Absolute() {
-
-}
-
-void CPU::AbsoluteX() {
-
-}
-
-void CPU::AbsoluteY() {
-
-}
-
-void CPU::Indirect() {
-
-}
-
-void CPU::IndirectX() {
-
-}
-
-void CPU::IndirectY() {
-
-}
 
 // ---------- Addressing Modes Functions End ----------
 // ---------- Opcode Functions Start ----------
 
 // Branch if Carry Clear
 void CPU::BCC() {
-    if ()
+
 }
 
 // Force Interrupt
@@ -120,6 +71,7 @@ void CPU::CLV() {
     cycles += 2;
 }
 
+// Decrement X Register
 void CPU::DEX() {
     // Decrement X register
     CpuRegister.XIndex--;
@@ -137,6 +89,75 @@ void CPU::DEX() {
         CpuRegister.Flag &= ~(1 << ProcessorFlag::Negative);
     }
 }
+
+// Decrement Y Register
+void CPU::DEY() {
+    // Decrement X register
+    CpuRegister.YIndex--;
+    cycles += 2;
+
+    if (CpuRegister.YIndex == 0x00) {
+        CpuRegister.Flag |= (1 << ProcessorFlag::Zero);
+    } else {
+        CpuRegister.Flag &= ~(1 << ProcessorFlag::Zero);
+    }
+
+    if ((CpuRegister.YIndex & 0x80) >> 7) {
+        CpuRegister.Flag |= (1 << ProcessorFlag::Negative);
+    } else {
+        CpuRegister.Flag &= ~(1 << ProcessorFlag::Negative);
+    }
+}
+
+// Increment X Register
+void CPU::INX() {
+    // Increment X register
+    CpuRegister.XIndex++;
+    cycles += 2;
+
+    if (CpuRegister.XIndex == 0x00) {
+        CpuRegister.Flag |= (1 << ProcessorFlag::Zero);
+    } else {
+        CpuRegister.Flag &= ~(1 << ProcessorFlag::Zero);
+    }
+
+    if ((CpuRegister.XIndex & 0x80) >> 7) {
+        CpuRegister.Flag |= (1 << ProcessorFlag::Negative);
+    } else {
+        CpuRegister.Flag &= ~(1 << ProcessorFlag::Negative);
+    }
+}
+
+// Increment Y Register
+void CPU::INY() {
+    // Increment X register
+    CpuRegister.YIndex++;
+    cycles += 2;
+
+    if (CpuRegister.YIndex == 0x00) {
+        CpuRegister.Flag |= (1 << ProcessorFlag::Zero);
+    } else {
+        CpuRegister.Flag &= ~(1 << ProcessorFlag::Zero);
+    }
+
+    if ((CpuRegister.YIndex & 0x80) >> 7) {
+        CpuRegister.Flag |= (1 << ProcessorFlag::Negative);
+    } else {
+        CpuRegister.Flag &= ~(1 << ProcessorFlag::Negative);
+    }
+}
+
+// Jump
+void CPU::JMP() {
+    // Set program counter to the address specified
+    CpuRegister.ProgramCounter = CurrentAddress;
+    if (CpuAddressingMode == Absolute) {
+        cycles += 3;
+    } else if (CpuAddressingMode == Indirect) {
+        cycles += 5;
+    }
+}
+
 
 // Set Carry Flag
 void CPU::SEC() {
@@ -158,7 +179,5 @@ void CPU::SEI() {
     CpuRegister.Flag |= (1 << ProcessorFlag::Interrupt);
     cycles += 2;
 }
-
-
 
 // ---------- Opcode Functions End ----------

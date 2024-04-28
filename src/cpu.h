@@ -79,19 +79,19 @@ public:
 
 
     // Addressing modes functions
-    void Implicit();
-    void Accumulator();
-    void Immediate();
-    void ZeroPage();
-    void ZeroPageX();
-    void ZeroPageY();
-    void Relative();
-    void Absolute();
-    void AbsoluteX();
-    void AbsoluteY();
-    void Indirect();
-    void IndirectX();
-    void IndirectY();
+    void IMP();     // Implicit
+    void ACC();     // Accumulator
+    void IMM();     // Immediate
+    void ZPO();     // Zero Page
+    void ZPX();     // Zero Page X
+    void ZPY();     // Zero Page Y
+    void REL();     // Relative
+    void ABS();     // Absolute
+    void ABX();     // Absolute X
+    void ABY();     // Absolute Y
+    void IND();     // Indirect
+    void IDX();     // Indirect X
+    void IDY();     // Indirect Y
 
     // Opcodes functions
     // https://www.oxyron.de/html/opcodes02.html
