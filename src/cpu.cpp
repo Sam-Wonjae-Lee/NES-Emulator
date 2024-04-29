@@ -25,7 +25,23 @@ void CPU::ConnectToBus(Bus *bus) {
 
 // ---------- Addressing Modes Functions Start ----------
 
+// Implicit
+void CPU::IMP() {
+    CpuAddressingMode = Implicit;
+}
 
+// Accumulator
+void CPU::ACC() {
+    CurrentValue = CpuRegister.Accumulator;
+    CpuAddressingMode = Accumulator;
+}
+
+// Immediate
+void CPU::IMM() {
+    CurrentAddress = CpuRegister.ProgramCounter++;
+    CurrentValue = Read(CurrentAddress);
+    CpuAddressingMode = Immediate;
+}
 
 // ---------- Addressing Modes Functions End ----------
 // ---------- Opcode Functions Start ----------
