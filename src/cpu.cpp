@@ -19,9 +19,21 @@ void CPU::ConnectToBus(Bus *bus) {
 
 }
 
-//void CPU::Reset() {
-//    CpuRegister.StackPointer = 0xFD;
-//}
+void CPU::Reset() {
+    CpuRegister.ProgramCounter = 0xFFFC;
+    CpuRegister.ProgramCounter = 0x00FF;
+    CpuRegister.Flag &= ~(1 << ProcessorFlag::Carry);
+    CpuRegister.Flag &= ~(1 << ProcessorFlag::Zero);
+    CpuRegister.Flag &= ~(1 << ProcessorFlag::Interrupt);
+    CpuRegister.Flag &= ~(1 << ProcessorFlag::Decimal);
+    CpuRegister.Flag &= ~(1 << ProcessorFlag::Break);
+    CpuRegister.Flag &= ~(1 << ProcessorFlag::Overflow);
+    CpuRegister.Flag &= ~(1 << ProcessorFlag::Negative);
+}
+
+void CPU::Step() {
+
+}
 
 // ---------- Addressing Modes Functions Start ----------
 
@@ -174,6 +186,25 @@ void CPU::JMP() {
     }
 }
 
+// Jump to Subroutine
+void CPU::JSR() {
+
+}
+
+// TODO: Finish LDA with Addressing Modes
+// Load Accumulator
+void CPU::LDA() {
+    // Loads a byte of memory into the accumulator
+    CpuRegister.Accumulator = CurrentValue;
+    if (CpuRegister.Accumulator == 0) {
+        // Set Zero Flag to 1 if Accumulator == 0
+        CpuRegister.Flag |= (1 << ProcessorFlag::Zero);
+    } else if ((CpuRegister.Accumulator & 0b10000000) > 0) {
+        // Set Negative Flag to 1 if the bit 7 of Accumulator is set
+        CpuRegister.Flag |= (1 << ProcessorFlag::Negative);
+    }
+}
+
 
 // Set Carry Flag
 void CPU::SEC() {
@@ -193,6 +224,89 @@ void CPU::SED() {
 void CPU::SEI() {
     // Set the Interrupt Disable Flag to 1
     CpuRegister.Flag |= (1 << ProcessorFlag::Interrupt);
+    cycles += 2;
+}
+
+// Transfer Accumulator to Y
+void CPU::TAY() {
+    // Y = A
+    CpuRegister.YIndex = CpuRegister.Accumulator;
+
+    if ((CpuRegister.YIndex & 0x80) >> 7) {
+        CpuRegister.Flag |= (1 << ProcessorFlag::Negative);
+    } else {
+        CpuRegister.Flag &= ~(1 << ProcessorFlag::Negative);
+    }
+
+    if (CpuRegister.YIndex == 0) {
+        CpuRegister.Flag |= (1 << ProcessorFlag::Zero);
+    } else {
+        CpuRegister.Flag &= ~(1 << ProcessorFlag::Zero);
+    }
+    cycles += 2;
+}
+
+// Transfer Stack Pointer to X
+void CPU::TSX() {
+    // X = SP
+    CpuRegister.XIndex = CpuRegister.StackPointer;
+
+    if ((CpuRegister.XIndex & 0x80) >> 7) {
+        CpuRegister.Flag |= (1 << ProcessorFlag::Negative);
+    } else {
+        CpuRegister.Flag &= ~(1 << ProcessorFlag::Negative);
+    }
+
+    if (CpuRegister.XIndex == 0) {
+        CpuRegister.Flag |= (1 << ProcessorFlag::Zero);
+    } else {
+        CpuRegister.Flag &= ~(1 << ProcessorFlag::Zero);
+    }
+    cycles += 2;
+}
+
+// Transfer X to Accumulator
+void CPU::TXA() {
+    // A = X
+    CpuRegister.Accumulator = CpuRegister.XIndex;
+
+    if ((CpuRegister.Accumulator & 0x80) >> 7) {
+        CpuRegister.Flag |= (1 << ProcessorFlag::Negative);
+    } else {
+        CpuRegister.Flag &= ~(1 << ProcessorFlag::Negative);
+    }
+
+    if (CpuRegister.Accumulator == 0) {
+        CpuRegister.Flag |= (1 << ProcessorFlag::Zero);
+    } else {
+        CpuRegister.Flag &= ~(1 << ProcessorFlag::Zero);
+    }
+    cycles += 2;
+}
+
+// Transfer X to Stack Pointer
+void CPU::TXS() {
+    // SP = X
+    CpuRegister.StackPointer = CpuRegister.XIndex;
+    cycles += 2;
+}
+
+// Transfer Y to Accumulator
+void CPU::TYA() {
+    // A = Y
+    CpuRegister.Accumulator = CpuRegister.YIndex;
+
+    if ((CpuRegister.Accumulator & 0x80) >> 7) {
+        CpuRegister.Flag |= (1 << ProcessorFlag::Negative);
+    } else {
+        CpuRegister.Flag &= ~(1 << ProcessorFlag::Negative);
+    }
+
+    if (CpuRegister.Accumulator == 0) {
+        CpuRegister.Flag |= (1 << ProcessorFlag::Zero);
+    } else {
+        CpuRegister.Flag &= ~(1 << ProcessorFlag::Zero);
+    }
     cycles += 2;
 }
 

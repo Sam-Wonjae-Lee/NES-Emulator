@@ -75,7 +75,7 @@ public:
     uint8_t Read(uint16_t address);
     void ConnectToBus(Bus *bus);    // Connect CPU to bus
     void Reset();
-    void Step();    // Perform one clock cycle
+    void Step();    // Perform one clock cycle and execute an instruction
 
 
     // Addressing modes functions
