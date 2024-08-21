@@ -4,7 +4,11 @@
  * */
 
 #pragma once
-#include <stdint.h>     // For different integer types
+#ifndef CPU_H
+#define CPU_H
+
+#include <stdint.h>
+#include <stdlib.h>
 
 /*
  * Addressing modes the 6502 CPU uses.
@@ -58,99 +62,88 @@ struct Register {
     uint16_t ProgramCounter;    // Keeps track of the memory address of the next instruction to be executed
 };
 
-class Bus;
 
-class CPU {
-public:
-    AddressingMode CpuAddressingMode;
-    ProcessorFlag CpuProcessorFlag;
-    Register CpuRegister;
+void Write(uint16_t address, uint8_t value);    // Write memory
+uint8_t Read(uint16_t address);     // Read memory
+void ConnectToBus(Bus *bus);    // Connect CPU to bus
+void Reset();
+void Step();    // Perform one clock cycle and execute an instruction
 
-    Bus *bus;
-    uint8_t cycles;
-    uint8_t CurrentValue;   // For loading memory
-    uint16_t CurrentAddress;    // For receiving at specific memory
+    
+// Addressing modes functions
+void IMP();     // Implicit
+void ACC();     // Accumulator
+void IMM();     // Immediate
+void ZPO();     // Zero Page
+void ZPX();     // Zero Page X
+void ZPY();     // Zero Page Y
+void REL();     // Relative
+void ABS();     // Absolute
+void ABX();     // Absolute X
+void ABY();     // Absolute Y
+void IND();     // Indirect
+void IDX();     // Indirect X
+void IDY();     // Indirect Y
 
-    void Write(uint16_t address, uint8_t value);
-    uint8_t Read(uint16_t address);
-    void ConnectToBus(Bus *bus);    // Connect CPU to bus
-    void Reset();
-    void Step();    // Perform one clock cycle and execute an instruction
+// Opcodes functions
+// https://www.oxyron.de/html/opcodes02.html
+// https://www.nesdev.org/obelisk-6502-guide/reference.html
 
+void ADC();     // Add with carry
+void AND();     // Logical And (And With Accumulator)
+void ASL();     // Arithmetic Shift Left
+void BCC();     // Branch if Carry Clear
+void BCS();     // Branch if Carry Set
+void BEQ();     // Branch if Equal
+void BIT();     // Bit Test
+void BMI();     // Branch if Minus
+void BNE();     // Branch if Not Equal
+void BPL();     // Branch if Positive
+void BRK();     // Force Interrupt
+void BVC();     // Branch if Overflow Clear
+void BVS();     // Branch if Overflow Set
+void CLC();     // Clear Carry Flag
+void CLD();     // Clear Decimal Mode
+void CLI();     // Clear Interrupt Disable
+void CLV();     // Clear Overflow Flag
+void CMP();     // Compare
+void CPX();     // Compare X Register
+void CPY();     // Compare Y Register
+void DEC();     // Decrement Memory
+void DEX();     // Decrement X Register
+void DEY();     // Decrement Y Register
+void EOR();     // Exclusive OR
+void INC();     // Increment Memory
+void INX();     // Increment X Register
+void INY();     // Increment Y Register
+void JMP();     // Jump
+void JSR();     // Jump to Subroutine
+void LDA();     // Load Accumulator
+void LDX();     // Load X Register
+void LDY();     // Load Y Register
+void LSR();     // Logical Shift Right
+void NOP();     // No Operation
+void ORA();     // Logical Inclusive Or
+void PHA();     // Push Accumulator
+void PHP();     // Push Processor Status
+void PLA();     // Pull Accumulator
+void PLP();     // Pull Processor Status
+void ROL();     // Rotate Left
+void ROR();     // Rotate Right
+void RTI();     // Return from Interrupt
+void RTS();     // Return from Subroutine
+void SBC();     // Subtract with Carry
+void SEC();     // Set Carry Flag
+void SED();     // Set Decimal Flag
+void SEI();     // Set Interrupt Flag
+void STA();     // Store Accumulator
+void STX();     // Store X Register
+void STY();     // Store Y Register
+void TAX();     // Transfer Accumulator to X
+void TAY();     // Transfer Accumulator to Y
+void TSX();     // Transfer Stack Pointer to X
+void TXA();     // Transfer X to Accumulator
+void TXS();     // Transfer X to Stack Pointer
+void TYA();     // Transfer X to Accumulators
 
-    // Addressing modes functions
-    void IMP();     // Implicit
-    void ACC();     // Accumulator
-    void IMM();     // Immediate
-    void ZPO();     // Zero Page
-    void ZPX();     // Zero Page X
-    void ZPY();     // Zero Page Y
-    void REL();     // Relative
-    void ABS();     // Absolute
-    void ABX();     // Absolute X
-    void ABY();     // Absolute Y
-    void IND();     // Indirect
-    void IDX();     // Indirect X
-    void IDY();     // Indirect Y
-
-    // Opcodes functions
-    // https://www.oxyron.de/html/opcodes02.html
-    // https://www.nesdev.org/obelisk-6502-guide/reference.html
-    void ADC();     // Add with carry
-    void AND();     // Logical And (And With Accumulator)
-    void ASL();     // Arithmetic Shift Left
-    void BCC();     // Branch if Carry Clear
-    void BCS();     // Branch if Carry Set
-    void BEQ();     // Branch if Equal
-    void BIT();     // Bit Test
-    void BMI();     // Branch if Minus
-    void BNE();     // Branch if Not Equal
-    void BPL();     // Branch if Positive
-    void BRK();     // Force Interrupt
-    void BVC();     // Branch if Overflow Clear
-    void BVS();     // Branch if Overflow Set
-    void CLC();     // Clear Carry Flag
-    void CLD();     // Clear Decimal Mode
-    void CLI();     // Clear Interrupt Disable
-    void CLV();     // Clear Overflow Flag
-    void CMP();     // Compare
-    void CPX();     // Compare X Register
-    void CPY();     // Compare Y Register
-    void DEC();     // Decrement Memory
-    void DEX();     // Decrement X Register
-    void DEY();     // Decrement Y Register
-    void EOR();     // Exclusive OR
-    void INC();     // Increment Memory
-    void INX();     // Increment X Register
-    void INY();     // Increment Y Register
-    void JMP();     // Jump
-    void JSR();     // Jump to Subroutine
-    void LDA();     // Load Accumulator
-    void LDX();     // Load X Register
-    void LDY();     // Load Y Register
-    void LSR();     // Logical Shift Right
-    void NOP();     // No Operation
-    void ORA();     // Logical Inclusive Or
-    void PHA();     // Push Accumulator
-    void PHP();     // Push Processor Status
-    void PLA();     // Pull Accumulator
-    void PLP();     // Pull Processor Status
-    void ROL();     // Rotate Left
-    void ROR();     // Rotate Right
-    void RTI();     // Return from Interrupt
-    void RTS();     // Return from Subroutine
-    void SBC();     // Subtract with Carry
-    void SEC();     // Set Carry Flag
-    void SED();     // Set Decimal Flag
-    void SEI();     // Set Interrupt Flag
-    void STA();     // Store Accumulator
-    void STX();     // Store X Register
-    void STY();     // Store Y Register
-    void TAX();     // Transfer Accumulator to X
-    void TAY();     // Transfer Accumulator to Y
-    void TSX();     // Transfer Stack Pointer to X
-    void TXA();     // Transfer X to Accumulator
-    void TXS();     // Transfer X to Stack Pointer
-    void TYA();     // Transfer X to Accumulators
-};
-
+#endif
