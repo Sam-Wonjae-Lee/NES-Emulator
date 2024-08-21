@@ -1,29 +1,25 @@
-// /*
-//  * The bus is a communication system that sends control signals and data between the processor and other components.
-//  * The main purpose for the bus will be to read and write.
-//  * */
+/*
+ * The bus is a communication system that sends control signals and data between the processor and other components.
+ * The main purpose for the bus will be to read and write.
+ * */
 
-// #include "bus.h"
+#include "bus.h"
 
-// Bus::Bus() {
+// Write a byte in a specific address to the bus
+void BusWrite(Bus *bus, uint16_t address, uint8_t value) {
+    // address >= 0x0000 && address <= 0xffff
+    if (address < sizeof(bus->ram)) {
+        bus->ram[address] = value;
+    }
+}
 
-// }
-
-// Bus::~Bus() {
-
-// }
-
-// void Bus::Write(uint16_t address, uint8_t value) {
-//     if (address >= 0x0000 && address <= 0xffff) {
-//         ram[address] = value;
-//     }
-// }
-
-// uint8_t Bus::Read(uint16_t address, bool ReadOnly) {
-//     if (address >= 0x0000 && address <= 0xffff) {
-//         return ram[address];
-//     }
-//     return 0x00;
-// }
+// Read a byte from the bus
+uint8_t BusRead(Bus *bus, uint16_t address, bool readOnly) {
+    // address >= 0x0000 && address <= 0xffff
+    if (address < sizeof(bus->ram)) {
+        return bus->ram[address];
+    }
+    return 0x00;
+}
 
 
