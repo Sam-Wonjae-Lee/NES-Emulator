@@ -17,6 +17,6 @@ struct Bus {
 }
 
 void BusWrite(Bus *bus, uint16_t address, uint8_t value);
-uint8_t BusRead(Bus *bus, uint16_t address, bool readOnly = false);
+uint8_t BusRead(Bus *bus, uint16_t address);
 
 #endif

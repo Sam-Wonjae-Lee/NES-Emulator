@@ -14,7 +14,7 @@ void BusWrite(Bus *bus, uint16_t address, uint8_t value) {
 }
 
 // Read a byte from the bus
-uint8_t BusRead(Bus *bus, uint16_t address, bool readOnly) {
+uint8_t BusRead(Bus *bus, uint16_t address) {
     // address >= 0x0000 && address <= 0xffff
     if (address < sizeof(bus->ram)) {
         return bus->ram[address];
