@@ -83,7 +83,7 @@ typedef enum {
     SHX,
 
     DCP,
-    ISB,
+    ISC,
     RLA,
     RRA,
     SLO,
@@ -134,7 +134,14 @@ const Instruction OpcodeMatrix[256] = {
     {BVC, Relative}, {EOR, IndirectY}, {NOP, None}, {SRE, IndirectY}, {NOP, ZeroPageX}, {EOR, ZeroPageX}, {LSR, ZeroPageX}, {SRE, ZeroPageX}, {CLI, Implicit}, {EOR, AbsoluteY}, {NOP, Implicit}, {SRE, AbsoluteY}, {NOP, AbsoluteX}, {EOR, AbsoluteX}, {LSR, AbsoluteX}, {SRE, AbsoluteX},
     {RTS, Implicit}, {ADC, IndirectX}, {NOP, None}, {RRA, IndirectX}, {NOP, ZeroPage}, {ADC, ZeroPage}, {ROR, ZeroPage}, {RRA, ZeroPage}, {PLA, Implicit}, {ADC, Immediate}, {ROR, Immediate}, {ARR, Immediate}, {JMP, Indirect}, {ADC, Absolute}, {ROR, Absolute}, {RRA, Absolute},
     {BVS, Relative}, {ADC, IndirectY}, {NOP, None}, {RRA, IndirectY}, {NOP, ZeroPageX}, {ADC, ZeroPageX}, {ROR, ZeroPageX}, {RRA, ZeroPageX}, {SEI, Implicit}, {ADC, AbsoluteY}, {NOP, Implicit}, {RRA, AbsoluteY}, {NOP, AbsoluteX}, {ADC, AbsoluteX}, {ROR, AbsoluteX}, {RRA, AbsoluteX},
-    {NOP, Immediate}, {STA, IndirectX}, {NOP, Immediate}, {SAX, IndirectX}, {STY, ZeroPage}, {STA, ZeroPage}, {STX, ZeroPage}, {SAX, ZeroPage}, {DEY, Implicit}, {NOP, Immediate}, {TXA, Immediate}, {}
+    {NOP, Immediate}, {STA, IndirectX}, {NOP, Immediate}, {SAX, IndirectX}, {STY, ZeroPage}, {STA, ZeroPage}, {STX, ZeroPage}, {SAX, ZeroPage}, {DEY, Implicit}, {NOP, Immediate}, {TXA, Immediate}, {NOP, Implicit}, {STY, Absolute}, {STA, Absolute}, {STX, Absolute}, {SAX, Absolute},
+    {BCC, Relative}, {STA, IndirectY}, {NOP, None}, {NOP, IndirectY}, {STY, ZeroPageX}, {STA, ZeroPageX}, {STX, ZeroPageY}, {SAX, ZeroPageY}, {TYA, Implicit}, {STA, AbsoluteY}, {TXS, Implicit}, {NOP, AbsoluteY}, {NOP, AbsoluteX}, {STA, AbsoluteX}, {NOP, AbsoluteY}, {NOP, AbsoluteY},
+    {LDY, Immediate}, {LDA, IndirectX}, {LDX, Immediate}, {LAX, IndirectX}, {LDY, ZeroPage}, {LDA, ZeroPage}, {LDX, ZeroPage}, {LAX, ZeroPage}, {TAY, Implicit}, {LDA, Immediate}, {TAX, Implicit}, {LAX, Immediate}, {LDY, Absolute}, {LDA, Absolute}, {LDX, Absolute}, {LAX, Absolute},
+    {BCS, Relative}, {LDA, IndirectY}, {NOP, None}, {LAX, IndirectY}, {LDY, ZeroPageX}, {LDA, ZeroPageX}, {LDX, ZeroPageY}, {LAX, ZeroPageY}, {CLV, Implicit}, {LDA, AbsoluteY}, {TSX, Implicit}, {LAS, AbsoluteY}, {LDY, AbsoluteX}, {LDA, AbsoluteX}, {LDX, AbsoluteY}, {LAX, AbsoluteY},
+    {CPY, Immediate}, {CMP, IndirectX}, {NOP, Immediate}, {DCP, IndirectX}, {CPY, ZeroPage}, {CMP, ZeroPage}, {DEC, ZeroPage}, {DCP, ZeroPage}, {IndirectY, Implicit}, {CMP, Immediate}, {DEX, Implicit}, {AXS, Immediate}, {CPY, Absolute}, {CMP, Absolute}, {DEC, Absolute}, {DCP, Absolute},
+    {BNE, Relative}, {CMP, IndirectY}, {NOP, None}, {DCP, IndirectY}, {NOP, ZeroPageX}, {CMP, ZeroPageX}, {DEC, ZeroPageX}, {DCP, ZeroPageX}, {CLD, Implicit}, {CMP, AbsoluteY}, {NOP, Implicit}, {DCP, AbsoluteY}, {NOP, AbsoluteX}, {CMP, AbsoluteX}, {DEC, AbsoluteX}, {DCP, AbsoluteX},
+    {CPX, Immediate}, {SBC, IndirectX}, {NOP, Immediate}, {ISC, IndirectX}, {CPX, ZeroPage}, {SBC, ZeroPage}, {INC, ZeroPage}, {ISC, ZeroPage}, {INX, Implicit}, {SBC, Immediate}, {NOP, Implicit}, {SBC, Immediate}, {CPX, Absolute}, {SBC, Absolute}, {INC, Absolute}, {ISC, Absolute},
+    {BEQ, Relative}, {SBC, IndirectY}, {NOP, None}, {ISC, IndirectY}, {NOP, ZeroPageX}, {SBC, ZeroPageX}, {INC, ZeroPageX}, {ISC, ZeroPageX}, {SED, Implicit}, {SBC, AbsoluteY}, {NOP, Immediate}, {ISC, AbsoluteY}, {NOP, AbsoluteX}, {SBC, AbsoluteX}, {INC, AbsoluteX}, {ISC, AbsoluteX}
 }
 
 const uint8_t InstructionCycles[256] = {
